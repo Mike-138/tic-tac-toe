@@ -1,4 +1,4 @@
-const TicTacToe = ((grid) => {
+const gameBoard = ((gridElement, victoryPanelElement) => {
 
     const _cellArray = [[null, null, null], [null, null, null], [null, null, null]]
 
@@ -56,10 +56,16 @@ const TicTacToe = ((grid) => {
 
     const _displayWinner = (winner) => `${winner} wins!`;
 
-    const _checkWinner = (element) => {
+    const _checkWinner = (victoryPanelElement) => {
         let winner = _determineWinner();
         if (winner) {
-            element.textContent = _displayWinner(winner);
+            victoryPanelElement.textContent = _displayWinner(winner);
         }
+        return;
     }
-})
+
+    gridElement.addEventListener("click", (event) => {
+        console.log(event.target);
+    })
+
+})(document.querySelector(".game-board"), null);

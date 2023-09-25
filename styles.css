@@ -1,0 +1,35 @@
+html {
+    height: 100%;
+    box-sizing: border-box;
+}
+
+*, *::before, *::after {
+    padding: 0;
+    margin: 0;
+    box-sizing: inherit;
+}
+
+body {
+    height: 100%;
+    display: grid;
+    place-items: center;
+}
+
+.game-board {
+    height: 70%;
+    width: 70%;
+    display: grid;
+    grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+}
+
+.game-cell {
+    display: grid;
+    justify-content: center;
+    background-color: lightgrey;
+    border: 1px solid black;
+}
+
+.game-cell img {
+    display: none;
+    object-fit: fill;
+}
