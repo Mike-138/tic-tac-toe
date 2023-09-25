@@ -2,12 +2,12 @@ const TicTacToe = ((grid) => {
 
     const _cellArray = [[null, null, null], [null, null, null], [null, null, null]]
 
-    const _isValidColumn = () => {
+    const _columnWinner = () => {
         let columnValues = new Set();
         for (let i = 0; i < 3; i++) {
             columnValues.clear();
             for (let j = 0; j < 3; j++) {
-                columnValues.add(this._cellArray[i][j]);
+                columnValues.add(_cellArray[i][j]);
             }
             if (columnValues.size === 1 && !columnValues.has(null)) {
                 return [columnValues];
@@ -16,12 +16,12 @@ const TicTacToe = ((grid) => {
         }
     }
 
-    const isValidRow = () => {
+    const _rowWinner = () => {
         let rowValues = new Set();
         for (let i = 0; i < 3; i++) {
             rowValues.clear();
             for (let j = 0; j < 3; j++) {
-                rowValues.add(this._cellArray[j][i]);
+                rowValues.add(_cellArray[j][i]);
             }
             if (rowValues.size === 1 && !rowValues.has(null)) {
                 return [rowValues];
@@ -30,10 +30,10 @@ const TicTacToe = ((grid) => {
         }
     }
 
-    const _isValidForwardDiagonal = () => {
+    const _forwardDiagonalWinner = () => {
         let forwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
-            forwardDiagonalValues.add(this._cellArray[i][i]);
+            forwardDiagonalValues.add(_cellArray[i][i]);
         }
         if (forwardDiagonalValues.size === 1 && !forwardDiagonalValues.has(null)) {
             return [forwardDiagonalValues];
@@ -41,14 +41,25 @@ const TicTacToe = ((grid) => {
         return null;
     }
 
-    const _isValidBackwardDiagonal = () => {
-        let backwarDiagonalValues = new Set();
+    const _backwardDiagonalWinner = () => {
+        let backwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
-            backwarDiagonalValues.add(this._cellArray[i][2 - i]);
+            backwardDiagonalValues.add(_cellArray[i][2 - i]);
         }
-        if (backwarDiagonalValues.size === 1 && !backwarDiagonalValues.has(null)) {
-            return [backwarDiagonalValues];
+        if (backwardDiagonalValues.size === 1 && !backwardDiagonalValues.has(null)) {
+            return [backwardDiagonalValues];
         }
         return null;
+    }
+
+    const _determineWinner = () => _columnWinner() || _rowWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner();
+
+    const _displayWinner = (winner) => `${winner} wins!`;
+
+    const _checkWinner = (element) => {
+        let winner = _determineWinner();
+        if (winner) {
+            element.textContent = _displayWinner(winner);
+        }
     }
 })
