@@ -65,9 +65,18 @@ const gameBoard = (() => {
         return null;
     }
 
-    const _checkWinner = () => _rowWinner() || _columnWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner();
+    const _checkDraw = () => {
+        for (let i = 0; i < 3; i++) {
+            if (_grid[i].some((element) => element === null)) {
+                return null;
+            }
+        }
+        return "Draw";
+    }
 
-    const _displayWinner = (winner) => console.log(`${winner} wins!`);
+    const _checkResult = () => _rowWinner() || _columnWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner() || _checkDraw();
+
+    const _displayResult = (result) => console.log(`${result}!`);
 
     const _getMarker = () => {
         return _turnNumber % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
@@ -98,16 +107,15 @@ const gameBoard = (() => {
         let cell = event.target;
         let cellMarker = cell.firstChild;
         if (cell.className === "game-cell" && cellMarker.alt === "EMPTY") {
-            let winner = _checkWinner();
             let [markerSrc, markerAlt] = _getMarker();
             cellMarker.src = markerSrc;
             cellMarker.alt = markerAlt;
             _grid[Number(cell.dataset.row)][Number(cell.dataset.col)] = markerAlt;
             _turnNumber += 1;
-            if (winner) {
-                _displayWinner(winner);
+            let result = _checkResult();
+            if (result) {
+                _displayResult(result);
             }
-            _computerChoice();
         }
     })
 
