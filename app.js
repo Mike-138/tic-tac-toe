@@ -65,7 +65,12 @@ const gameBoard = ((gridElement, victoryPanelElement) => {
     }
 
     gridElement.addEventListener("click", (event) => {
-        console.log(event.target);
+        cell = event.target;
+        if (cell.className === "game-cell") {
+            cellMarker = cell.firstChild;
+            cellMarker.src = "x.svg";
+            cellMarker.alt = "X";
+        }
     })
 
 })(document.querySelector(".game-board"), null);

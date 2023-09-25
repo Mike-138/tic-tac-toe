@@ -30,6 +30,6 @@ body {
 }
 
 .game-cell img {
-    display: none;
-    object-fit: fill;
+    display: inital;
+    height: 100%;
 }
