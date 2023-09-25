@@ -1,6 +1,7 @@
 const gameBoard = (() => {
 
     const _cellArray = [[null, null, null], [null, null, null], [null, null, null]]
+    let _turnNumber = 1;
 
     const _grid = document.querySelector(".game-board");
 
@@ -76,12 +77,22 @@ const gameBoard = (() => {
         return;
     }
 
+    const _getMarker = () => {
+        return _turnNumber % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
+    }
+
+    const _configureMarkers = () => {
+        _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
+    }
+
     _grid.addEventListener("click", (event) => {
-        cell = event.target;
-        if (cell.className === "game-cell") {
+        let [markerSrc, markerAlt] = _getMarker();
+        let cell = event.target;
+        if (cell.className === "game-cell" && cell.firstChild.alt === "EMPTY") {
             cellMarker = cell.firstChild;
-            cellMarker.src = "x.svg";
-            cellMarker.alt = "X";
+            cellMarker.src = markerSrc;
+            cellMarker.alt = markerAlt;
+            _turnNumber += 1;
         }
     })
 
@@ -90,8 +101,6 @@ const gameBoard = (() => {
     }
 
     _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
-
-    _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
 
     _markerSelector.showModal();
 
