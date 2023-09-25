@@ -15,7 +15,7 @@ const gameBoard = (() => {
     const _xMarker = document.getElementById("x-marker");
     const _oMarker = document.getElementById("o-marker");
 
-    const _rowWinner = () => {
+    const _checkRowWin = () => {
         let rowValues = new Set();
         for (let i = 0; i < 3; i++) {
             rowValues.clear();
@@ -29,7 +29,7 @@ const gameBoard = (() => {
         return null;
     }
 
-    const _columnWinner = () => {
+    const _checkColumnWin = () => {
         let columnValues = new Set();
         for (let i = 0; i < 3; i++) {
             columnValues.clear();
@@ -43,7 +43,7 @@ const gameBoard = (() => {
         return null;
     }
 
-    const _forwardDiagonalWinner = () => {
+    const _checkForwardDiagonalWin = () => {
         let forwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
             forwardDiagonalValues.add(_grid[i][i]);
@@ -54,7 +54,7 @@ const gameBoard = (() => {
         return null;
     }
 
-    const _backwardDiagonalWinner = () => {
+    const _checkBackwardDiagonalWin = () => {
         let backwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
             backwardDiagonalValues.add(_grid[i][2 - i]);
@@ -74,7 +74,7 @@ const gameBoard = (() => {
         return "Draw";
     }
 
-    const _checkResult = () => _rowWinner() || _columnWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner() || _checkDraw();
+    const _checkResult = () => _checkRowWin() || _checkColumnWin() || _checkForwardDiagonalWin() || _checkBackwardDiagonalWin() || _checkDraw();
 
     const _displayResult = (result) => console.log(`${result}!`);
 
