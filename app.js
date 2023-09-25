@@ -85,7 +85,7 @@ const gameBoard = (() => {
         do {
             row = Math.floor(Math.random() * 3);
             col = Math.floor(Math.random() * 3);
-        } while (!_grid[row][col]);
+        } while (_grid[row][col]);
         let [markerSrc, markerAlt] = _getMarker();
         let cellMarker = document.querySelector(`[data-col="${col}"][data-row="${row}"] img`)
         cellMarker.src = markerSrc;
@@ -107,6 +107,7 @@ const gameBoard = (() => {
             if (winner) {
                 _displayWinner(winner);
             }
+            _computerChoice();
         }
     })
 
