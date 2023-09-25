@@ -74,22 +74,39 @@ const gameBoard = (() => {
     }
 
     const _configureMarkers = () => {
+        _markerSelector.showModal();
         _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
+        _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? _turnNumber = 1 : _turnNumber = 2);
+    }
+
+    const _computerChoice = () => {
+        let row;
+        let col;
+        do {
+            row = Math.floor(Math.random() * 3);
+            col = Math.floor(Math.random() * 3);
+        } while (!_grid[row][col]);
+        let [markerSrc, markerAlt] = _getMarker();
+        let cellMarker = document.querySelector(`[data-col="${col}"][data-row="${row}"] img`)
+        cellMarker.src = markerSrc;
+        cellMarker.alt = markerAlt;
+        _grid[row][col] = markerAlt;
+        _turnNumber += 1;
     }
 
     _board.addEventListener("click", (event) => {
         let cell = event.target;
         let cellMarker = cell.firstChild;
         if (cell.className === "game-cell" && cellMarker.alt === "EMPTY") {
+            let winner = _checkWinner();
             let [markerSrc, markerAlt] = _getMarker();
             cellMarker.src = markerSrc;
             cellMarker.alt = markerAlt;
             _grid[Number(cell.dataset.row)][Number(cell.dataset.col)] = markerAlt;
             _turnNumber += 1;
-        }
-        let winner = _checkWinner();
-        if (winner) {
-            _displayWinner(winner);
+            if (winner) {
+                _displayWinner(winner);
+            }
         }
     })
 
@@ -99,6 +116,6 @@ const gameBoard = (() => {
 
     _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
 
-    _markerSelector.showModal();
+    _configureMarkers();
 
 })();
