@@ -1,6 +1,6 @@
 const gameBoard = (() => {
 
-    const _grid = [[null, null, null], [null, null, null], [null, null, null]]
+    let _grid = [[null, null, null], [null, null, null], [null, null, null]]
     let _turnNumber = 1;
 
     const _board = document.querySelector(".game-board");
@@ -15,6 +15,10 @@ const gameBoard = (() => {
     const _xMarker = document.getElementById("x-marker");
     const _oMarker = document.getElementById("o-marker");
 
+    const _resultModal = document.getElementById("result-modal");
+    const _restartButton = document.getElementById("restart-button");
+    const _result = document.getElementById("result");
+
     const _checkRowWin = () => {
         let rowValues = new Set();
         for (let i = 0; i < 3; i++) {
@@ -23,7 +27,7 @@ const gameBoard = (() => {
                 rowValues.add(_grid[i][j]);
             }
             if (rowValues.size === 1 && !(rowValues.has(null))) {
-                return [...rowValues];
+                return [...rowValues].pop();
             }
         }
         return null;
@@ -37,7 +41,7 @@ const gameBoard = (() => {
                 columnValues.add(_grid[j][i]);
             }
             if (columnValues.size === 1 && !columnValues.has(null)) {
-                return [...columnValues];
+                return [...columnValues].pop();
             }
         }
         return null;
@@ -49,7 +53,7 @@ const gameBoard = (() => {
             forwardDiagonalValues.add(_grid[i][i]);
         }
         if (forwardDiagonalValues.size === 1 && !forwardDiagonalValues.has(null)) {
-            return [...forwardDiagonalValues];
+            return [...forwardDiagonalValues].pop();
         }
         return null;
     }
@@ -60,7 +64,7 @@ const gameBoard = (() => {
             backwardDiagonalValues.add(_grid[i][2 - i]);
         }
         if (backwardDiagonalValues.size === 1 && !backwardDiagonalValues.has(null)) {
-            return [...backwardDiagonalValues];
+            return [...backwardDiagonalValues].pop();
         }
         return null;
     }
@@ -76,7 +80,22 @@ const gameBoard = (() => {
 
     const _checkResult = () => _checkRowWin() || _checkColumnWin() || _checkForwardDiagonalWin() || _checkBackwardDiagonalWin() || _checkDraw();
 
-    const _displayResult = (result) => console.log(`${result}!`);
+    const _displayResult = (result) => {
+        switch (result) {
+            case "X":
+                _result.textContent = "X wins!";
+                break;
+            case "O":
+                _result.textContent = "O wins!";
+                break;
+            case "Draw":
+                _result.textContent = "Draw!";
+                break;
+            default:
+                _result.textContent = "Error";
+        }
+        _resultModal.showModal();
+    }
 
     const _getMarker = () => {
         return _turnNumber % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
@@ -100,6 +119,10 @@ const gameBoard = (() => {
         cellMarker.src = markerSrc;
         cellMarker.alt = markerAlt;
         _grid[row][col] = markerAlt;
+        let result = _checkResult();
+        if (result) {
+            _displayResult(result);
+        }
         _turnNumber += 1;
     }
 
@@ -111,11 +134,12 @@ const gameBoard = (() => {
             cellMarker.src = markerSrc;
             cellMarker.alt = markerAlt;
             _grid[Number(cell.dataset.row)][Number(cell.dataset.col)] = markerAlt;
-            _turnNumber += 1;
             let result = _checkResult();
+            console.log(result);
             if (result) {
                 _displayResult(result);
             }
+            _turnNumber += 1;
         }
     })
 
@@ -126,5 +150,17 @@ const gameBoard = (() => {
     _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
 
     _configureMarkers();
+
+    _restartButton.addEventListener("click", () => {
+        _grid = [[null, null, null], [null, null, null], [null, null, null]];
+        _turnNumber = 1;
+        let cells = _board.children;
+        console.log(cells);
+        for (let cell of cells) {
+            cellMarker = cell.firstChild;
+            cellMarker.src = "";
+            cellMarker.alt = "EMPTY";
+        }
+    })
 
 })();
