@@ -9,6 +9,11 @@ const gameBoard = (() => {
     const _computerOpponent = document.getElementById("computer");
     const _humanOpponent = document.getElementById("human");
 
+    const _markerSelector = document.getElementById("marker-selector");
+    const _markerConfirmation = document.getElementById("marker-confirmation");
+    const _xMarker = document.getElementById("x-marker");
+    const _oMarker = document.getElementById("o-marker");
+
     const _columnWinner = () => {
         let columnValues = new Set();
         for (let i = 0; i < 3; i++) {
@@ -80,8 +85,14 @@ const gameBoard = (() => {
         }
     })
 
-    _opponentConfirmation.addEventListener("click", () => {
-        _computerOpponent.checked ? _opponentConfirmation.value = _computerOpponent.id : _opponentConfirmation.value = _humanOpponent.id;
-    })
+    const _setSubmitValueByRadioPair = (submitButton, radioOne, radioTwo) => {
+        radioOne.checked ? submitButton.value = radioOne.id : submitButton.value = radioTwo.id;
+    }
+
+    _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
+
+    _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
+
+    _markerSelector.showModal();
 
 })();
