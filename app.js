@@ -1,6 +1,13 @@
-const gameBoard = ((gridElement, victoryPanelElement) => {
+const gameBoard = (() => {
 
     const _cellArray = [[null, null, null], [null, null, null], [null, null, null]]
+
+    const _grid = document.querySelector(".game-board");
+
+    const _opponentSelector = document.getElementById("opponent-selector");
+    const _opponentConfirmation = document.getElementById("opponent-confirmation");
+    const _computerOpponent = document.getElementById("computer");
+    const _humanOpponent = document.getElementById("human");
 
     const _columnWinner = () => {
         let columnValues = new Set();
@@ -64,7 +71,7 @@ const gameBoard = ((gridElement, victoryPanelElement) => {
         return;
     }
 
-    gridElement.addEventListener("click", (event) => {
+    _grid.addEventListener("click", (event) => {
         cell = event.target;
         if (cell.className === "game-cell") {
             cellMarker = cell.firstChild;
@@ -73,4 +80,8 @@ const gameBoard = ((gridElement, victoryPanelElement) => {
         }
     })
 
-})(document.querySelector(".game-board"), null);
+    _opponentConfirmation.addEventListener("click", () => {
+        _computerOpponent.checked ? _opponentConfirmation.value = _computerOpponent.id : _opponentConfirmation.value = _humanOpponent.id;
+    })
+
+})();

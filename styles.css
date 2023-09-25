@@ -10,9 +10,18 @@ html {
 }
 
 body {
+    position: relative;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
     height: 100%;
     display: grid;
     place-items: center;
+}
+
+dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .game-board {
@@ -30,6 +39,6 @@ body {
 }
 
 .game-cell img {
-    display: inital;
     height: 100%;
+    display: inital;
 }

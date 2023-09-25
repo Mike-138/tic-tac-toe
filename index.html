@@ -8,6 +8,15 @@
     <script src="app.js" defer></script>
 </head>
 <body>
+    <dialog id="opponent-selector">
+        <form method="dialog">
+            <h1>Welcome to Tic-Tac-Toe!</h1>
+            <h5>Will you play against the computer or another human?</h5>
+            <label for="computer">Computer</label><input type="radio" name="opponent" id="computer" checked>
+            <label for="human">Human</label><input type="radio" name="opponent" id="human">
+            <button id="opponent-confirmation" value="default">Confirm Opponent</button>
+        </form>
+    </dialog>
     <div class="game-board">
         <div class="game-cell" data-col="0" data-row="0"><img src="" alt="EMPTY"></div>
         <div class="game-cell" data-col="1" data-row="0"><img src="" alt="EMPTY"></div>
