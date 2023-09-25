@@ -1,9 +1,9 @@
 const gameBoard = (() => {
 
-    const _cellArray = [[null, null, null], [null, null, null], [null, null, null]]
+    const _grid = [[null, null, null], [null, null, null], [null, null, null]]
     let _turnNumber = 1;
 
-    const _grid = document.querySelector(".game-board");
+    const _board = document.querySelector(".game-board");
 
     const _opponentSelector = document.getElementById("opponent-selector");
     const _opponentConfirmation = document.getElementById("opponent-confirmation");
@@ -15,12 +15,12 @@ const gameBoard = (() => {
     const _xMarker = document.getElementById("x-marker");
     const _oMarker = document.getElementById("o-marker");
 
-    const _columnWinner = () => {
+    const _rowWinner = () => {
         let columnValues = new Set();
         for (let i = 0; i < 3; i++) {
             columnValues.clear();
             for (let j = 0; j < 3; j++) {
-                columnValues.add(_cellArray[i][j]);
+                columnValues.add(_grid[i][j]);
             }
             if (columnValues.size === 1 && !columnValues.has(null)) {
                 return [columnValues];
@@ -29,12 +29,12 @@ const gameBoard = (() => {
         }
     }
 
-    const _rowWinner = () => {
+    const _columnWinner = () => {
         let rowValues = new Set();
         for (let i = 0; i < 3; i++) {
             rowValues.clear();
             for (let j = 0; j < 3; j++) {
-                rowValues.add(_cellArray[j][i]);
+                rowValues.add(_grid[j][i]);
             }
             if (rowValues.size === 1 && !rowValues.has(null)) {
                 return [rowValues];
@@ -46,7 +46,7 @@ const gameBoard = (() => {
     const _forwardDiagonalWinner = () => {
         let forwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
-            forwardDiagonalValues.add(_cellArray[i][i]);
+            forwardDiagonalValues.add(_grid[i][i]);
         }
         if (forwardDiagonalValues.size === 1 && !forwardDiagonalValues.has(null)) {
             return [forwardDiagonalValues];
@@ -57,7 +57,7 @@ const gameBoard = (() => {
     const _backwardDiagonalWinner = () => {
         let backwardDiagonalValues = new Set();
         for (let i = 0; i < 3; i++) {
-            backwardDiagonalValues.add(_cellArray[i][2 - i]);
+            backwardDiagonalValues.add(_grid[i][2 - i]);
         }
         if (backwardDiagonalValues.size === 1 && !backwardDiagonalValues.has(null)) {
             return [backwardDiagonalValues];
@@ -65,7 +65,7 @@ const gameBoard = (() => {
         return null;
     }
 
-    const _determineWinner = () => _columnWinner() || _rowWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner();
+    const _determineWinner = () => _rowWinner() || _columnWinner() || _forwardDiagonalWinner() || _backwardDiagonalWinner();
 
     const _displayWinner = (winner) => `${winner} wins!`;
 
@@ -85,13 +85,14 @@ const gameBoard = (() => {
         _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
     }
 
-    _grid.addEventListener("click", (event) => {
-        let [markerSrc, markerAlt] = _getMarker();
+    _board.addEventListener("click", (event) => {
         let cell = event.target;
-        if (cell.className === "game-cell" && cell.firstChild.alt === "EMPTY") {
-            cellMarker = cell.firstChild;
+        let cellMarker = cell.firstChild;
+        if (cell.className === "game-cell" && cellMarker.alt === "EMPTY") {
+            let [markerSrc, markerAlt] = _getMarker();
             cellMarker.src = markerSrc;
             cellMarker.alt = markerAlt;
+            _grid[Number(cell.dataset.row)][Number(cell.dataset.col)] = markerAlt;
             _turnNumber += 1;
         }
     })
