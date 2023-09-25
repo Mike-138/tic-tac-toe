@@ -13,8 +13,14 @@
         <form method="dialog">
             <h1>Welcome to Tic-Tac-Toe!</h1>
             <h5>Will you play against the computer or another human?</h5>
-            <label for="computer">Computer</label><input type="radio" name="opponent" id="computer" checked>
-            <label for="human">Human</label><input type="radio" name="opponent" id="human">
+            <div class="radio-wrapper">
+                <label for="computer">Computer</label>
+                <input type="radio" name="opponent" id="computer" checked>
+            </div>
+            <div class="radio-wrapper">
+                <label for="human">Human</label>
+                <input type="radio" name="opponent" id="human">
+            </div>
             <button id="opponent-confirmation" value="default">Confirm Opponent</button>
         </form>
     </dialog>
@@ -23,8 +29,14 @@
         <form method="dialog">
             <h1>Select your marker! Will you be <em>X</em> or <em>O</em></h1>
             <h5>Remember that <em>X</em> goes first!</h5>
-            <label for="x-marker">X</label><input type="radio" name="marker" id="x-marker" checked>
-            <label for="o-marker">O</label><input type="radio" name="marker" id="o-marker">
+            <div class="radio-wrapper">
+                <label for="x-marker">X</label>
+                <input type="radio" name="marker" id="x-marker" checked>
+            </div>
+            <div class="radio-wrapper">
+                <label for="o-marker">O</label>
+                <input type="radio" name="marker" id="o-marker">
+            </div>
             <button id="marker-confirmation" value="default">Let's Play!</button>
         </form>
     </dialog>
