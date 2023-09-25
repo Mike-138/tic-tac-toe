@@ -101,12 +101,6 @@ const gameBoard = (() => {
         return _turnNumber % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
     }
 
-    const _configureMarkers = () => {
-        _markerSelector.showModal();
-        _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
-        _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? _turnNumber = 1 : _turnNumber = 2);
-    }
-
     const _computerChoice = () => {
         let row;
         let col;
@@ -126,6 +120,10 @@ const gameBoard = (() => {
         _turnNumber += 1;
     }
 
+    const _setSubmitValueByRadioPair = (submitButton, radioOne, radioTwo) => {
+        radioOne.checked ? submitButton.value = radioOne.id : submitButton.value = radioTwo.id;
+    }
+
     _board.addEventListener("click", (event) => {
         let cell = event.target;
         let cellMarker = cell.firstChild;
@@ -143,24 +141,23 @@ const gameBoard = (() => {
         }
     })
 
-    const _setSubmitValueByRadioPair = (submitButton, radioOne, radioTwo) => {
-        radioOne.checked ? submitButton.value = radioOne.id : submitButton.value = radioTwo.id;
-    }
-
     _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
+    _opponentSelector.addEventListener("close", () => _markerSelector.showModal());
 
-    _configureMarkers();
+    _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
+    _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? _turnNumber = 1 : _turnNumber = 2);
 
     _restartButton.addEventListener("click", () => {
         _grid = [[null, null, null], [null, null, null], [null, null, null]];
         _turnNumber = 1;
         let cells = _board.children;
-        console.log(cells);
         for (let cell of cells) {
             cellMarker = cell.firstChild;
             cellMarker.src = "";
             cellMarker.alt = "EMPTY";
         }
     })
+
+    _opponentSelector.showModal();
 
 })();
