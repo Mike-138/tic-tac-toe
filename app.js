@@ -181,7 +181,7 @@ const displayController = (() => {
     _opponentSelector.addEventListener("close", () => _markerSelector.showModal());
 
     _markerConfirmation.addEventListener("click", _setMarker);
-    _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? gameBoard._turn = 1 : gameBoard._turn = 2);
+    _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? gameBoard.getTurn() : gameBoard.incrementTurn());
 
     _restartButton.addEventListener("click", () => {
         gameBoard.resetGrid();
