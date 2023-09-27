@@ -133,8 +133,15 @@ const displayController = (() => {
     const _result = document.getElementById("result");
 
     const _setSubmitValueByRadioPair = (submitButton, radioOne, radioTwo) => {
-        radioOne.checked ? submitButton.value = radioOne.id : submitButton.value = radioTwo.id;
+        return () => {
+            radioOne.checked ? submitButton.value = radioOne.id : submitButton.value = radioTwo.id;
+            console.log(submitButton.value);
+        }
     }
+
+    const _setOpponent = _setSubmitValueByRadioPair(_opponentConfirmation, _computerOpponent, _humanOpponent);
+    
+    const _setMarker = _setSubmitValueByRadioPair(_markerConfirmation, _xMarker, _oMarker);
 
     const _getMarker = () => {
         return gameBoard.getTurn() % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
@@ -170,10 +177,10 @@ const displayController = (() => {
         }
     })
 
-    _opponentConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _opponentConfirmation, _computerOpponent, _humanOpponent));
+    _opponentConfirmation.addEventListener("click", _setOpponent);
     _opponentSelector.addEventListener("close", () => _markerSelector.showModal());
 
-    _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
+    _markerConfirmation.addEventListener("click", _setMarker);
     _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? gameBoard._turn = 1 : gameBoard._turn = 2);
 
     _restartButton.addEventListener("click", () => {
