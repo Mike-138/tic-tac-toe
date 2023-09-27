@@ -1,13 +1,19 @@
 const gameBoard = (() => {
 
     let _grid = [[null, null, null], [null, null, null], [null, null, null]]
-    let turn = 1;
+    let _turn = 1;
 
     const resetGrid = () => _grid = [[null, null, null], [null, null, null], [null, null, null]];
 
-    const setSquare = (cell, value) => {
+    const setGridSqaure = (cell, value) => {
         _grid[Number(cell.dataset.row)][Number(cell.dataset.col)] = value;
     }
+
+    const getTurn = () => _turn;
+
+    const resetTurns = () => _turn = 1;
+
+    const incrementTurn = () => _turn += 1;
 
     const _checkRowWin = () => {
         console.log(_grid);
@@ -87,10 +93,10 @@ const gameBoard = (() => {
         if (result) {
             displayResult(result);
         }
-        turn += 1;
+        _turn += 1;
     }
 
-    return {turn, resetGrid, setSquare, checkResult};
+    return {resetGrid, resetTurns, getTurn, incrementTurn, setGridSqaure, checkResult};
 
 })();
 
@@ -131,7 +137,7 @@ const displayController = (() => {
     }
 
     const _getMarker = () => {
-        return gameBoard.turn % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
+        return gameBoard.getTurn() % 2 ? ["x.svg", "X"] : ["o.svg", "O"];
     }
 
     const displayResult = (result) => {
@@ -158,9 +164,9 @@ const displayController = (() => {
             let [markerSrc, markerAlt] = _getMarker();
             cellMarker.src = markerSrc;
             cellMarker.alt = markerAlt;
-            gameBoard.setSquare(cell, markerAlt);
+            gameBoard.setGridSqaure(cell, markerAlt);
             gameController.endGame()
-            gameBoard.turn += 1;
+            gameBoard.incrementTurn();
         }
     })
 
@@ -168,11 +174,11 @@ const displayController = (() => {
     _opponentSelector.addEventListener("close", () => _markerSelector.showModal());
 
     _markerConfirmation.addEventListener("click", _setSubmitValueByRadioPair.bind(this, _markerConfirmation, _xMarker, _oMarker));
-    _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? gameBoard.turn = 1 : gameBoard.turn = 2);
+    _markerSelector.addEventListener("close", () => _markerSelector.returnValue === "x-marker" ? gameBoard._turn = 1 : gameBoard._turn = 2);
 
     _restartButton.addEventListener("click", () => {
-        gameBoard.resetGrid()
-        gameBoard.turn = 1;
+        gameBoard.resetGrid();
+        gameBoard.resetTurns();
         let cells = _board.children;
         for (let cell of cells) {
             cellMarker = cell.firstChild;
