@@ -139,7 +139,7 @@ const displayController = (() => {
         }
     }
 
-    const _setOpponent = _setSubmitValueByRadioPair(_opponentConfirmation, _computerOpponent, _humanOpponent);
+    const __setOpponent = _setSubmitValueByRadioPair(_opponentConfirmation, _computerOpponent, _humanOpponent);
     
     const _setMarker = _setSubmitValueByRadioPair(_markerConfirmation, _xMarker, _oMarker);
 
@@ -177,7 +177,7 @@ const displayController = (() => {
         }
     })
 
-    _opponentConfirmation.addEventListener("click", _setOpponent);
+    _opponentConfirmation.addEventListener("click", __setOpponent);
     _opponentSelector.addEventListener("close", () => _markerSelector.showModal());
 
     _markerConfirmation.addEventListener("click", _setMarker);
